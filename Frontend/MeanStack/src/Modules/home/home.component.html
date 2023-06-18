@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button>
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>My App</span>
+    <button mat-icon-button>
+        <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button>
+        <mat-icon>share</mat-icon>
+    </button>
+</mat-toolbar>
+
+<div class="h-100" flexAlign="center">
+    <div class="main-content" layout="m-t-10">
+        <form flexLayout="column" #form="ngForm" (ngSubmit)="onSubmit(form)">
+            <mat-form-field>
+                <mat-label>Favorite food</mat-label>
+                <input matInput name="foodName" ngModel #foodName="ngModel" placeholder="Ex. Pizza" [required]="true">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Leave a comment</mat-label>
+                <textarea matInput name="foodComment" ngModel #foodComment="ngModel"
+                    placeholder="Ex. It makes me feel..." [required]="true"></textarea>
+            </mat-form-field>
+            <div flexAlign="end">
+                <button mat-raised-button color="primary" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
