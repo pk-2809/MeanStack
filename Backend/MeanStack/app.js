@@ -1,6 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const FoodModel = require('./models/db-model');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://host:9oYClyBfDVKuMq5z@db-cluster-1.vigbkhs.mongodb.net/MeanStack?retryWrites=true&w=majority').then((res) => {
+    console.log('Database Connected Successfully');
+}).catch((err) => {
+    console.log('Database Connection Failed!'+JSON.stringify(err));
+})
 
 const app = express();
 const PORT = 3000;
@@ -26,7 +33,7 @@ app.post('/comments', (req, res, next) => {
         foodName: req.body.name,
         comment:req.body.comment
     });
-
+    data.save();
     comments.push(data);
     res.json({
         message: 'Added Successfully!'
@@ -35,11 +42,14 @@ app.post('/comments', (req, res, next) => {
 
 app.use('/comments', (req, res, next) => {
     
+    FoodModel.find().then(docs => {
+        res.status(200).json({
+            status: true,
+            data:docs
+        });
+    })
     
-    res.status(200).json({
-        status: true,
-        data:comments
-    });
+    
 });
 
 

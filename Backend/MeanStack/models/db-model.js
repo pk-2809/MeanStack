@@ -5,4 +5,4 @@ const schema = mongoose.Schema({
     comment: { type: String, required: true }
 });
 
-module.exports = mongoose.model('Post', schema);
+module.exports = mongoose.model('FoodModel', schema);

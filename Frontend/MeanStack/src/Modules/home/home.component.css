@@ -1,11 +1,40 @@
 .main-content {
-    width: 60%;
-    height: 200px;
-    border-radius: 8px;
-    background-color: #ececec;
-    padding: 10px;
+  width: 60%;
+  height: 200px;
+  border-radius: 8px;
+  background-color: #ececec;
+  padding: 10px;
 }
 
 .h-100 {
-    height: calc(80vh - 74px);
+  height: calc(100vh - 64px);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.lft {
+  width: 25%;
+  border-radius: 8px;
+  background-color: #ececec;
+  overflow-x: auto;
+}
+
+.rght {
+  width: 75%;
+  border-radius: 8px;
+  background-color: #ececec;
+}
+
+.mat-list-item:hover {
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+
+.form {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  /* height: 60%; */
+  width: 60%;
 }
