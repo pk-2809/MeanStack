@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
         const foodName = form.value.foodName;
         const foodComment = form.value.foodComment;
         const req = {
-          name: foodName.toUpperCase(),
+          foodName: foodName.toUpperCase(),
           comment:foodComment
         }
         this.http.callService('comments', 'POST',req).subscribe((res: any) => {
@@ -42,5 +42,20 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  addRestaurant(form:NgForm)
+  {
+    if (form.valid) {
+      const restName = form.value.restName;
+      const restrating = form.value.restRating;
+      const req = {
+        restName: restName,
+        restRating:restrating
+      }
+      this.http.callService('restaurants', 'POST',req).subscribe((res: any) => {
+        form.resetForm();
+        // this.fetchExistingComments();
+      })
+    }
+  }
 
 }

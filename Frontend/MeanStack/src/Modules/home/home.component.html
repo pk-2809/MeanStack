@@ -23,7 +23,7 @@
       <mat-list-item>Item 3</mat-list-item> -->
     </mat-list>
   </div>
-  <div class="rght" layout="m-10 p-t-40 p-b-40 p-l-20 p-r-20" flexAlign="center">
+  <div class="rght" layout="m-10 p-t-40 p-b-40 p-l-20 p-r-20" flexLayout="column" flexAlign="center">
     <div class="form" layout="p-20">
       <form flexLayout="column" #form="ngForm" (ngSubmit)="onSubmit(form)">
         <mat-form-field>
@@ -40,25 +40,21 @@
         </div>
       </form>
     </div>
+    <div class="form" layout="p-20 m-t-10">
+      <form flexLayout="column" #restForm="ngForm" (ngSubmit)="addRestaurant(restForm)">
+        <mat-form-field>
+          <mat-label>Favorite Restaurant</mat-label>
+          <input matInput name="restName" ngModel #restName="ngModel" placeholder="Restaurant Name" [required]="true">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Leave a Rating</mat-label>
+          <textarea matInput name="restRating" ngModel #restRating="ngModel" placeholder="Ex. It makes me feel high..."
+            [required]="true"></textarea>
+        </mat-form-field>
+        <div flexAlign="end">
+          <button mat-raised-button color="primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-
-<!-- <div class="h-100" flexAlign="center">
-    <div class="main-content" layout="m-t-10">
-        <form flexLayout="column" #form="ngForm" (ngSubmit)="onSubmit(form)">
-            <mat-form-field>
-                <mat-label>Favorite food</mat-label>
-                <input matInput name="foodName" ngModel #foodName="ngModel" placeholder="Ex. Pizza" [required]="true">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Leave a comment</mat-label>
-                <textarea matInput name="foodComment" ngModel #foodComment="ngModel"
-                    placeholder="Ex. It makes me feel..." [required]="true"></textarea>
-            </mat-form-field>
-            <div flexAlign="end">
-                <button mat-raised-button color="primary" type="submit">Submit</button>
-            </div>
-        </form>
-    </div>
-</div> -->

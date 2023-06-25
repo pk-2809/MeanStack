@@ -1,22 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const FoodModel = require('./models/db-model');
+const { FoodModel, RestaurantModel } = require('./models/db-model');
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb+srv://host:9oYClyBfDVKuMq5z@db-cluster-1.vigbkhs.mongodb.net/MeanStack?retryWrites=true&w=majority').then((res) => {
-    console.log('Database Connected Successfully');
+    console.log('--------- DB SUCCESS --------');
 }).catch((err) => {
-    console.log('Database Connection Failed!'+JSON.stringify(err));
+    console.log('Database Connection Failed! '+err.message);
 })
 
 const app = express();
 const PORT = 3000;
-
-
-const comments = [
-    { id: '101', foodName: 'XYZ', comment: 'This is my favourite food.' },
-    { id: '102', foodName: 'PQR', comment: 'This is my another favourite food.' }
-];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -30,32 +24,54 @@ app.use((req, res, next) => {
 
 app.post('/comments', (req, res, next) => {
     const data = new FoodModel({
-        foodName: req.body.name,
+        foodName: req.body.foodName,
         comment:req.body.comment
     });
-    data.save();
-    comments.push(data);
-    res.json({
-        message: 'Added Successfully!'
+    data.save()
+    .then(() => {
+        res.json({
+            message: 'Food Added Successfully!'
+        });
+    })
+    .catch((error) => {
+        res.status(500).json({
+            error: error.message
+        });
+    });
+})
+
+app.post('/restaurants', (req, res, next) => {
+
+    const data = new RestaurantModel({
+        restName: req.body.restName,
+        restRating:parseInt(req.body.restRating)
+    });
+    data.save()
+    .then(() => {
+        res.json({
+            message: 'Restaurant Added Successfully!'
+        });
+    })
+    .catch((error) => {
+        res.status(500).json({
+            error: error.message
+        });
     });
 })
 
 app.use('/comments', (req, res, next) => {
-    
     FoodModel.find().then(docs => {
         res.status(200).json({
             status: true,
             data:docs
         });
+    }).catch(err => {
+        console.log(err.message);
+            res.status(500).json({
+                error: err.message
+            });
     })
-    
-    
 });
-
-
-
-
-
 
 
 app.listen(PORT, (error) => {

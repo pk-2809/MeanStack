@@ -38,3 +38,13 @@
   /* height: 60%; */
   width: 60%;
 }
+
+@media (max-height: 470px) {
+  .rght {
+    flex-direction: row;
+  }
+
+  .rght>* {
+    margin-right: 10px;
+  }
+}
