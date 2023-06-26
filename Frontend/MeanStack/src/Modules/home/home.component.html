@@ -11,21 +11,18 @@
   </button>
 </mat-toolbar>
 
-<div class="h-100" flexLayout="row">
+<div class="h-100" fxLayout="row">
   <div class="lft" layout="m-10">
     <mat-list layout="m-t-40 m-b-40 m-l-20 m-r-20">
       <div *ngFor="let item of foodList; let i = index;">
         <mat-list-item>{{item.foodName}}</mat-list-item>
         <mat-divider *ngIf="i != foodList.length"></mat-divider>
       </div>
-      <!-- <mat-list-item>Item 2</mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>Item 3</mat-list-item> -->
     </mat-list>
   </div>
-  <div class="rght" layout="m-10 p-t-40 p-b-40 p-l-20 p-r-20" flexLayout="column" flexAlign="center">
+  <div class="rght" layout="m-10 p-t-40 p-b-40 p-l-20 p-r-20" fxLayout="column" fxAlign="center center" fxGap="2">
     <div class="form" layout="p-20">
-      <form flexLayout="column" #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <form fxLayout="column" #form="ngForm" (ngSubmit)="onSubmit(form)">
         <mat-form-field>
           <mat-label>Favorite food</mat-label>
           <input matInput name="foodName" ngModel #foodName="ngModel" placeholder="Ex. Pizza" [required]="true">
@@ -35,13 +32,13 @@
           <textarea matInput name="foodComment" ngModel #foodComment="ngModel" placeholder="Ex. It makes me feel..."
             [required]="true"></textarea>
         </mat-form-field>
-        <div flexAlign="end">
+        <div fxAlign="end">
           <button mat-raised-button color="primary" type="submit">Submit</button>
         </div>
       </form>
     </div>
-    <div class="form" layout="p-20 m-t-10">
-      <form flexLayout="column" #restForm="ngForm" (ngSubmit)="addRestaurant(restForm)">
+    <div class="form" layout="p-20">
+      <form fxLayout="column" #restForm="ngForm" (ngSubmit)="addRestaurant(restForm)">
         <mat-form-field>
           <mat-label>Favorite Restaurant</mat-label>
           <input matInput name="restName" ngModel #restName="ngModel" placeholder="Restaurant Name" [required]="true">
@@ -51,7 +48,7 @@
           <textarea matInput name="restRating" ngModel #restRating="ngModel" placeholder="Ex. It makes me feel high..."
             [required]="true"></textarea>
         </mat-form-field>
-        <div flexAlign="end">
+        <div fxAlign="end">
           <button mat-raised-button color="primary" type="submit">Submit</button>
         </div>
       </form>

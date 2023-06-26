@@ -1,13 +1,15 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[flexLayout],[flexAlign],[flexGap],[flexWrap]'
+  selector: '[fxLayout],[fxAlign],[fxGap],[fxWrap],[fxHeight],[fxWidth]'
 })
 export class FlexDirective implements OnInit {
-  @Input('flexLayout') layout: string | undefined;
-  @Input('flexAlign') align: string | undefined;
-  @Input('flexGap') gap: string | undefined;
-  @Input('flexWrap') wrap: string | undefined;
+  @Input('fxLayout') layout: string | undefined;
+  @Input('fxAlign') align: string | undefined;
+  @Input('fxGap') gap: string | undefined;
+  @Input('fxWrap') wrap: string | undefined;
+  @Input('fxHeight') height: string | undefined;
+  @Input('fxWidth') width: string | undefined;
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -27,6 +29,14 @@ export class FlexDirective implements OnInit {
     if (this.wrap) {
       this.applyWrapStyles(this.wrap);
     }
+    if (this.height)
+    {
+      this.applyWidthOrHeight('height', this.height);
+    }
+    if (this.width)
+    {
+      this.applyWidthOrHeight('width', this.width);
+      }
   }
 
   private applyLayoutStyles(layout: string) {
@@ -44,44 +54,37 @@ export class FlexDirective implements OnInit {
   }
 
   private applyAlignmentStyles(align: string) {
-    const styles = align.split(' ');
+    const [horizontalAlign, verticalAlign] = align.split(' ');
 
-    if (styles.includes('center')) {
-      this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
-      this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'center');
-      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'center');
-    }
+    this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
 
-    if (styles.includes('start')) {
-      this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
+    // Horizontal alignment
+    if (horizontalAlign === 'start') {
       this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'flex-start');
-      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'flex-start');
-    }
-
-    if (styles.includes('end')) {
-      this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
+    } else if (horizontalAlign === 'center') {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'center');
+    } else if (horizontalAlign === 'end') {
       this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'flex-end');
-      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'flex-end');
-    }
-
-    if (styles.includes('space-between')) {
-      this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
+    } else if (horizontalAlign === 'space-between') {
       this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'space-between');
+    } else if (horizontalAlign === 'none') {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'unset');
     }
 
-    if (styles.includes('space-around')) {
-      this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
-      this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'space-around');
-    }
-
-    if (styles.includes('space-evenly')) {
-      this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
-      this.renderer.setStyle(this.elementRef.nativeElement, 'justify-content', 'space-evenly');
+    // Vertical alignment
+    if (verticalAlign === 'start') {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'flex-start');
+    } else if (verticalAlign === 'center') {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'center');
+    } else if (verticalAlign === 'end') {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'flex-end');
+    } else if (verticalAlign === 'none') {
+      this.renderer.setStyle(this.elementRef.nativeElement, 'align-items', 'unset');
     }
   }
 
   private applyGapStyles(gap: string) {
-    this.renderer.setStyle(this.elementRef.nativeElement, 'gap', gap);
+    this.renderer.setStyle(this.elementRef.nativeElement, 'gap', gap+'%');
   }
 
   private applyWrapStyles(wrap: string) {
@@ -92,6 +95,10 @@ export class FlexDirective implements OnInit {
       this.renderer.setStyle(this.elementRef.nativeElement, 'display', 'flex');
       this.renderer.setStyle(this.elementRef.nativeElement, 'flex-wrap', 'nowrap');
     }
+  }
+  applyWidthOrHeight(align: string, value: string | undefined)
+  {
+    this.renderer.setStyle(this.elementRef.nativeElement, align, value);
   }
 }
 

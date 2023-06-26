@@ -39,12 +39,13 @@
   width: 60%;
 }
 
-@media (max-height: 470px) {
-  .rght {
-    flex-direction: row;
+@media (max-height:550px) {
+  .form {
+    width: 40%;
   }
 
-  .rght>* {
-    margin-right: 10px;
+  .rght {
+    display: flex;
+    flex-direction: row !important;
   }
 }
