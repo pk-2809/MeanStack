@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 
 const foodSchema = mongoose.Schema({
     foodName: { type: String, required: true },
-    comment: { type: String, required: true }
+    comment: { type: String, required: true },
+    imagePath:{type:String, required:true}
+
 });
 
 const restaurantSchema = mongoose.Schema({
     restName: { type: String, required: true },
-    restRating: { type: Number, required: true }
+    restRating: { type: Number, required: true },
+    imagePath:{type:String, required:true}
 });
 
 const FoodModel = mongoose.model('FoodModel', foodSchema);
