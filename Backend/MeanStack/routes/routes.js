@@ -26,14 +26,51 @@ const fileStorage = multer.diskStorage({
     }
 });
 
+router.get('/comments', (req, res, next) => {
+    FoodModel.find().then(docs => {
+        res.status(200).json({
+            status: true,
+            data:docs
+        });
+    }).catch(err => {
+            res.status(500).json({
+                error: err.message
+            });
+    })
+});
 
-router.post('/comments', multer({ storage: fileStorage }).single("file"), (req, res, next) => {
+router.delete('/comments/:id', (req, res, next) => {
+    const documentId = req.params.id;
+    FoodModel.findByIdAndDelete(documentId)
+        .then((deletedDocument) => {
+        if (deletedDocument) {
+            res.status(200).json({
+              status:true,
+            message: 'Food deleted successfully',
+          });
+        } else {
+            res.status(404).json({
+              status:false,
+            message: 'Food not found',
+          });
+        }
+      })
+      .catch((error) => {
+          res.status(500).json({
+            status:false,
+          message: error.message,
+        });
+      });
+  });  
+
+router.post('/comments', multer({ storage: fileStorage }).single("imagePath"), (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     const data = new FoodModel({
         foodName: req.body.foodName,
         comment: req.body.comment,
-        filePath: url + '/images/' + req.file.filename
+        imagePath: url + '/images/' + req.file.filename
     });
+    console.log(data);
     data.save()
     .then(() => {
         res.json({
@@ -47,7 +84,9 @@ router.post('/comments', multer({ storage: fileStorage }).single("file"), (req, 
     });
 })
 
-router.post('/restaurants', multer({ storage: fileStorage }).single("file"), (req, res, next) => {
+
+
+router.post('/restaurants', multer({ storage: fileStorage }).single("imagePath"), (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     const data = new RestaurantModel({
         restName: req.body.restName,
@@ -67,7 +106,7 @@ router.post('/restaurants', multer({ storage: fileStorage }).single("file"), (re
     });
 })
 
-router.use('/restaurants', (req, res, next) => {
+router.get('/restaurants', (req, res, next) => {
     RestaurantModel.find().then(docs => {
         res.status(200).json({
             status: true,
@@ -81,18 +120,28 @@ router.use('/restaurants', (req, res, next) => {
     })
 });
 
-router.use('/comments', (req, res, next) => {
-    FoodModel.find().then(docs => {
-        res.status(200).json({
-            status: true,
-            data:docs
+router.delete('/restaurants/:id', (req, res, next) => {
+    const documentId = req.params.id;
+    FoodModel.findByIdAndDelete(documentId)
+        .then((deletedDocument) => {
+        if (deletedDocument) {
+            res.status(200).json({
+              status:true,
+            message: 'Restaurant deleted successfully',
+          });
+        } else {
+            res.status(404).json({
+              status:false,
+            message: 'Restaurant not found',
+          });
+        }
+      })
+      .catch((error) => {
+          res.status(500).json({
+            status:false,
+          message: error.message,
         });
-    }).catch(err => {
-        console.log(err.message);
-            res.status(500).json({
-                error: err.message
-            });
-    })
-});
+      });
+  });  
 
 module.exports = router;

@@ -11,9 +11,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 @NgModule({
   declarations: [
     HomeComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +28,7 @@ import {MatDividerModule} from '@angular/material/divider';
     MatInputModule,
     MatListModule,
     MatDividerModule,
+    MatDialogModule,
     FormsModule,
     SharedModule
   ]

@@ -19,21 +19,17 @@
   <div class="lft" layout="m-10">
     <h3 layout="m-l-20 m-t-10">Food List ({{foodList.length}})</h3>
     <mat-list class="list-scroll" layout="m-b-40 m-l-20 m-r-20">
-      <div *ngFor="let item of foodList; let i = index;">
-        <mat-list-item>
-          <p>{{ item.foodName }}</p>
-        </mat-list-item>
+      <mat-list-item *ngFor="let item of foodList; let i = index;" (click)="onFoodSelect(item)">
+        <p>{{ item.foodName }}</p>
         <mat-divider *ngIf="i != foodList.length"></mat-divider>
-      </div>
+      </mat-list-item>
     </mat-list>
     <h3 layout="m-l-20 m-t-10 m-b-10">Restaurant List ({{restList.length}})</h3>
     <mat-list class="list-scroll" layout="m-b-40 m-l-20 m-r-20">
-      <div *ngFor="let item of restList; let i = index;">
-        <mat-list-item>
-          <p>{{ item.restName }}</p>
-        </mat-list-item>
+      <mat-list-item *ngFor="let item of restList; let i = index;" (click)="onRestroSelect(item)">
+        <p>{{ item.restName }}</p>
         <mat-divider *ngIf="i != foodList.length"></mat-divider>
-      </div>
+      </mat-list-item>
     </mat-list>
   </div>
   <div class="rght" layout="m-10 p-t-40 p-b-40 p-l-20 p-r-20" fxLayout="column" fxAlign="center center" fxGap="2">

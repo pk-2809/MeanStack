@@ -1,12 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { HomeForm } from './home.model';
+import { RestForm } from './home.model';
 import { NgForm } from '@angular/forms';
 import { HttpService } from 'src/Utils/http.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+export interface DialogObj{
+  name: string,
+  desc: string,
+  image:string
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
+
+@ViewChild("myDialog")
 export class HomeComponent implements OnInit {
 
   food!: HomeForm;
@@ -14,8 +24,10 @@ export class HomeComponent implements OnInit {
   restaurantImage: File | undefined;
   foodList: HomeForm[] = [];
   restList: any[] = [];
+  dialogObj: DialogObj | undefined;
 
-  constructor(private http:HttpService) { }
+
+  constructor(private http:HttpService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.fetchExistingComments();
@@ -31,7 +43,7 @@ export class HomeComponent implements OnInit {
           const req = new FormData();
           req.append('foodName', foodName.toUpperCase());
           req.append('comment', foodComment);
-          req.append('file', this.foodImage);
+          req.append('imagePath', this.foodImage);
           this.http.callService('comments', 'POST',req).subscribe((res: any) => {
             form.resetForm();
             this.fetchExistingComments();
@@ -46,7 +58,7 @@ export class HomeComponent implements OnInit {
   }
   fetchExistingComments()
   {
-    this.http.callService('comments', 'GET').subscribe((res: any) => {
+    this.http.callService<HomeForm>('comments', 'GET').subscribe((res: any) => {
       console.log(res);
       if (res.status)
       {
@@ -72,7 +84,7 @@ export class HomeComponent implements OnInit {
 
   fetchExistingRestaurants()
   {
-    this.http.callService('restaurants', 'GET').subscribe((res: any) => {
+    this.http.callService<RestForm>('restaurants', 'GET').subscribe((res: any) => {
       console.log(res);
       if (res.status)
       {
@@ -92,7 +104,7 @@ export class HomeComponent implements OnInit {
           req.append('restName', restName.toUpperCase());
           req.append('restRating', restRating);
           req.append('file', this.restaurantImage);
-        this.http.callService('restaurants', 'POST',req).subscribe((res: any) => {
+        this.http.callService<RestForm>('restaurants', 'POST',req).subscribe((res: any) => {
           form.resetForm();
           this.fetchExistingRestaurants();
         })
@@ -102,6 +114,48 @@ export class HomeComponent implements OnInit {
           console.log('File not found');
           }
     }
+  }
+
+  onFoodSelect(item: HomeForm)
+  {
+    this.dialogObj = {
+      name: item.foodName,
+      desc: item.comment,
+      image:item.imagePath
+    }
+    this.dialog.open(DialogComponent, {
+      data: {
+        data: this.dialogObj,
+        type: 'FOOD',
+        info:item
+      }
+    }).afterClosed().subscribe(res => {
+      if (res === 'delete')
+      {
+        this.fetchExistingComments();
+        }
+    });;
+  }
+
+  onRestroSelect(item: RestForm)
+  {
+    this.dialogObj = {
+      name: item.restName,
+      desc: item.restRating,
+      image:item.imagePath
+    }
+    this.dialog.open(DialogComponent, {
+      data: {
+        data: this.dialogObj,
+        type: 'REST',
+        info:item
+      }
+    }).afterClosed().subscribe(res => {
+      if (res === 'delete')
+      {
+        this.fetchExistingRestaurants();
+        }
+    });
   }
 
 }

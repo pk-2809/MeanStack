@@ -33,6 +33,12 @@ export class HttpService {
     }
   }
 
+  deleteService(endPoint: string, req: string)
+  {
+    const url = `${environment.baseUrl}${endPoint}/`;
+    return this.http.delete(url + req);
+  }
+
   private handleErrors(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {

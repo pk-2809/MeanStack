@@ -54,3 +54,10 @@
     flex-direction: row !important;
   }
 }
+
+.my-dialog {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 300px !important;
+  height: 300px !important;
+}

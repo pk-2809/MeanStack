@@ -1,0 +1,8 @@
+.img-box {
+  background-color: #cccccc;
+  border-radius: 8px;
+}
+
+.img-box img {
+  object-fit: cover;
+}
