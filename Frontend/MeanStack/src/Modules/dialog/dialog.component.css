@@ -6,3 +6,7 @@
 .img-box img {
   object-fit: cover;
 }
+
+.custom-bottom-sheet {
+  width: 20%;
+}

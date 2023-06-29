@@ -36,7 +36,17 @@ export class HttpService {
   deleteService(endPoint: string, req: string)
   {
     const url = `${environment.baseUrl}${endPoint}/`;
-    return this.http.delete(url + req);
+    return this.http.delete(url + req).pipe(
+      catchError(this.handleErrors)
+    );;
+  }
+
+  updateService(endPoint: string, req:any)
+  {
+    const url = `${environment.baseUrl}${endPoint}/${req.id}`;
+    return this.http.put(url, req.data).pipe(
+      catchError(this.handleErrors)
+    );;
   }
 
   private handleErrors(error: HttpErrorResponse) {
@@ -46,7 +56,6 @@ export class HttpService {
     } else {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.error(errorMessage);
     return throwError(() => errorMessage);
   }
 }

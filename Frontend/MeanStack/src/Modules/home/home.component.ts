@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
         const req = new FormData();
           req.append('restName', restName.toUpperCase());
           req.append('restRating', restRating);
-          req.append('file', this.restaurantImage);
+          req.append('imagePath', this.restaurantImage);
         this.http.callService<RestForm>('restaurants', 'POST',req).subscribe((res: any) => {
           form.resetForm();
           this.fetchExistingRestaurants();
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
         info:item
       }
     }).afterClosed().subscribe(res => {
-      if (res === 'delete')
+      if (res === 'delete' || res === 'edit')
       {
         this.fetchExistingComments();
         }
@@ -151,7 +151,7 @@ export class HomeComponent implements OnInit {
         info:item
       }
     }).afterClosed().subscribe(res => {
-      if (res === 'delete')
+      if (res === 'delete' || res === 'edit')
       {
         this.fetchExistingRestaurants();
         }

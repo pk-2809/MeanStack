@@ -17,12 +17,12 @@ const fileStorage = multer.diskStorage({
         if (valid)
             err = null;
         const filePath = path.join(__dirname, '..', 'images');
-        console.log(filePath)
         callback(err, filePath);
     }, filename: (req, file, callback) => {
-        const fileName = file.originalname.toLowerCase().split(' ').join('-');
-        const fileExt = MIME_TYPE[file.mimetype];
-        callback(null, Date.now() + '-' + fileExt + fileName);
+        const originalFileName = file.originalname.toLowerCase();
+        const currentDate = new Date().toISOString().replace(/:/g, '-');
+        const newFileName = originalFileName.replace(/(\.[^.]+)$/, `-${currentDate}$1`);
+        callback(null, newFileName);
     }
 });
 
@@ -70,19 +70,59 @@ router.post('/comments', multer({ storage: fileStorage }).single("imagePath"), (
         comment: req.body.comment,
         imagePath: url + '/images/' + req.file.filename
     });
-    console.log(data);
     data.save()
     .then(() => {
         res.json({
+            status:true,
             message: 'Food Added Successfully!'
         });
     })
     .catch((error) => {
         res.status(500).json({
+            status:false,
             error: error.message
         });
     });
 })
+
+router.put('/comments/:id',multer({ storage: fileStorage }).single("imagePath"), (req, res, next) => {
+    const documentId = req.params.id;
+    const url = req.protocol + "://" + req.get("host");
+    let imgPath = "";
+    if (req.file) {
+        imgPath = url + '/images/' + req.file.filename;
+    }
+    else {
+        imgPath = req.body.imagePath;
+    }
+    const data = new FoodModel({
+        _id:req.params.id,
+        foodName: req.body.foodName,
+        comment: req.body.comment,
+        imagePath: imgPath
+    });
+    FoodModel.updateOne({ _id: documentId }, data)
+      .then(updatedDocument => {
+        if (updatedDocument) {
+          res.status(200).json({
+            message: 'Document updated successfully',
+              data: updatedDocument,
+              status:true,
+          });
+        } else {
+            res.status(404).json({
+                status:false,
+            message: 'Document not found',
+          });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({
+            error: error.message,
+            status:false,
+        });
+      });
+  });
 
 
 
@@ -115,14 +155,54 @@ router.get('/restaurants', (req, res, next) => {
     }).catch(err => {
         console.log(err.message);
             res.status(500).json({
-                error: err.message
+                error: err.message,
+                status:false
             });
     })
 });
 
+router.put('/restaurants/:id', multer({ storage: fileStorage }).single("imagePath"), (req, res, next) => {
+    const documentId = req.params.id;
+    const url = req.protocol + "://" + req.get("host");
+    let imgPath = "";
+    if (req.file) {
+        imgPath = url + '/images/' + req.file.filename;
+    }
+    else {
+        imgPath = req.body.imagePath;
+    }
+    const updateReq = new RestaurantModel({
+        _id: documentId,
+        restName: req.body.restName,
+        restRating: parseInt(req.body.restRating),
+        imagePath:imgPath
+    })
+    RestaurantModel.updateOne({_id:documentId}, updateReq)
+      .then(updatedDocument => {
+        if (updatedDocument) {
+          res.status(200).json({
+            message: 'Restaurant updated successfully',
+              data: updatedDocument,
+              status:true,
+          });
+        } else {
+          res.status(404).json({
+              message: 'Restaurant not found',
+              status:false,
+          });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({
+            error: error.message,
+            status:false,
+        });
+      });
+  });
+
 router.delete('/restaurants/:id', (req, res, next) => {
     const documentId = req.params.id;
-    FoodModel.findByIdAndDelete(documentId)
+    RestaurantModel.findByIdAndDelete(documentId)
         .then((deletedDocument) => {
         if (deletedDocument) {
             res.status(200).json({

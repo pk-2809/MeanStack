@@ -12,11 +12,16 @@ import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { DialogComponent } from '../dialog/dialog.component';
+import { BottomSheetComponent } from '../bottom-sheet/bottom-sheet.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 @NgModule({
   declarations: [
     HomeComponent,
-    DialogComponent
+    DialogComponent,
+    BottomSheetComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +34,8 @@ import { DialogComponent } from '../dialog/dialog.component';
     MatListModule,
     MatDividerModule,
     MatDialogModule,
+    MatBottomSheetModule,
+    MatTooltipModule,
     FormsModule,
     SharedModule
   ]

@@ -17,3 +17,75 @@ h6 {
   font-family: 'Poppins', sans-serif;
 
 }
+
+/* green color  */
+
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+  color: #0F9D58;
+}
+
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #f0fff3;
+  background-color: #0F9D58;
+}
+
+.mat-icon-button.mat-success {
+  color: #0F9D58;
+}
+
+/* blue color */
+
+.mat-button.mat-blue,
+.mat-stroked-button.mat-blue {
+  color: #0A6EBD;
+}
+
+.mat-button.mat-blue:hover,
+.mat-stroked-button.mat-blue:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-blue,
+.mat-flat-button.mat-blue,
+.mat-fab.mat-blue,
+.mat-mini-fab.mat-blue {
+  color: #f0fff3;
+  background-color: #0A6EBD;
+}
+
+.mat-icon-button.mat-blue {
+  color: #0A6EBD;
+}
+
+/* yellow color  */
+
+.mat-button.mat-yellow,
+.mat-stroked-button.mat-yellow {
+  color: #fca311;
+}
+
+.mat-button.mat-yellow:hover,
+.mat-stroked-button.mat-yellow:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-yellow,
+.mat-flat-button.mat-yellow,
+.mat-fab.mat-yellow,
+.mat-mini-fab.mat-yellow {
+  color: #f0fff3;
+  background-color: #fca311;
+}
+
+.mat-icon-button.mat-yellow {
+  color: #fca311;
+}
